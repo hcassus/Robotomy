@@ -2,6 +2,7 @@ package robotomy.usecase;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static robotomy.domain.enumeration.Direction.NORTH;
 
 import org.junit.Assert;
@@ -12,21 +13,25 @@ import org.mockito.junit.MockitoJUnitRunner;
 import robotomy.domain.entities.Robot;
 import robotomy.domain.entities.Tabletop;
 import robotomy.domain.enumeration.Direction;
+import robotomy.validator.MoveValidator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlaceRobotUsecaseTest {
 
   private PlaceRobotUsecase placeRobotUsecase;
   private Tabletop tabletop;
+  private MoveValidator validator;
+
 
   @Before
   public void setup(){
     tabletop = new Tabletop(5, 5);
-    placeRobotUsecase = new PlaceRobotUsecase(tabletop);
+    validator = new MoveValidator(tabletop);
+    placeRobotUsecase = new PlaceRobotUsecase(tabletop, validator);
   }
 
   @Test
-  public void testPlaceRobot(){
+  public void testRobotPlacement(){
     Direction direction = NORTH;
     int positionX = 0;
     int positionY = 1;
@@ -38,6 +43,17 @@ public class PlaceRobotUsecaseTest {
     Assert.assertThat(robot.getPositionX(), is(positionX));
     Assert.assertThat(robot.getPositionY(), is(positionY));
     Assert.assertThat(robot.getDirection(), is(direction));
+  }
+
+  @Test
+  public void testInvalidRobotPlacement(){
+    int positionX = 5;
+    int positionY = 5;
+
+    placeRobotUsecase.execute(positionX, positionY, NORTH);
+
+    Robot robot = tabletop.getRobot();
+    Assert.assertThat(robot, nullValue());
   }
 
 }
