@@ -11,6 +11,7 @@ import robotomy.domain.enumeration.Rotation;
 @RequiredArgsConstructor
 public class TurnRobotUsecase {
 
+  private static final int DIRECTION_COUNT = Direction.values().length;
   private final Tabletop tabletop;
 
   public void execute(Rotation rotation){
@@ -20,8 +21,13 @@ public class TurnRobotUsecase {
   }
 
   private Direction calculateNewDirection(Robot robot, Rotation rotation) {
-    Integer ordinalDirection = robot.getDirection().ordinal() + rotation.getCardinalOffset();
+    Integer ordinalDirection = calculateDirectionOrdinal(robot, rotation);
     return Direction.values()[ordinalDirection];
+  }
+
+  private int calculateDirectionOrdinal(Robot robot, Rotation rotation) {
+    int newDirecionOrdinal = (robot.getDirection().ordinal() + rotation.getCardinalOffset()) % DIRECTION_COUNT;
+    return newDirecionOrdinal >= 0 ? newDirecionOrdinal : newDirecionOrdinal + DIRECTION_COUNT;
   }
 
 }

@@ -32,9 +32,16 @@ public class ReportRobotUsecaseTest {
     Robot robot = prepareRobot(direction, positionX, positionY);
     tabletop.setRobot(robot);
 
-    String position = reportRobotPositionUsecase.execute();
+    String message = reportRobotPositionUsecase.execute();
 
-    Assert.assertThat(position, is(String.format("%s,%s,%s", positionX, positionY, direction)));
+    Assert.assertThat(message, is(String.format("%s,%s,%s", positionX, positionY, direction)));
+  }
+
+  @Test
+  public void testReportMissingRobot(){
+    String message = reportRobotPositionUsecase.execute();
+
+    Assert.assertThat(message, is("ROBOT MISSING"));
   }
 
   private Robot prepareRobot(Direction direction, int positionX, int positionY) {
