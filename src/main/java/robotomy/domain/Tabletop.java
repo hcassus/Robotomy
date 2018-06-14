@@ -10,14 +10,14 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class Tabletop {
 
-  private final Integer maxIndexX;
-  private final Integer maxIndexY;
+  private final Integer sizeX;
+  private final Integer sizeY;
   private Robot robot;
   public Tabletop(
       @Value("${robotomy.tabletop.sizeX}") Integer sizeX,
       @Value("${robotomy.tabletop.sizeY}") Integer sizeY) {
-    this.maxIndexX = sizeX - 1;
-    this.maxIndexY = sizeY - 1;
+    this.sizeX = sizeX;
+    this.sizeY = sizeY;
   }
 
 }

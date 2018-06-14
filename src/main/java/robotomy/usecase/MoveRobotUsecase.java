@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import robotomy.domain.Robot;
 import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
-import robotomy.validator.MoveValidator;
+import robotomy.domain.MoveValidator;
 
 @Component
 @RequiredArgsConstructor
