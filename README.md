@@ -4,4 +4,4 @@
 
 
 A wandering REST controlled robot
-http://robotomy.herokuapp.com/robot/raw
+http://robotomy.herokuapp.com/robot/operate/raw
