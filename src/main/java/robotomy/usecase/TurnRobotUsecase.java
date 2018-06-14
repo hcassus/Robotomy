@@ -1,5 +1,6 @@
 package robotomy.usecase;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import robotomy.domain.Robot;
@@ -15,9 +16,12 @@ public class TurnRobotUsecase {
   private final Tabletop tabletop;
 
   public void execute(Rotation rotation) {
-    Robot robot = tabletop.getRobot();
-    Direction direction = calculateNewDirection(robot, rotation);
-    robot.setDirection(direction);
+    Optional<Robot> optionalRobot = Optional.ofNullable(tabletop.getRobot());
+    if (optionalRobot.isPresent()) {
+      Robot robot = optionalRobot.get();
+      Direction direction = calculateNewDirection(robot, rotation);
+      robot.setDirection(direction);
+    }
   }
 
   private Direction calculateNewDirection(Robot robot, Rotation rotation) {
