@@ -13,6 +13,6 @@ public class ReportRobotPositionUsecase {
   private final RobotOperationPresenter presenter;
 
   public void execute() {
-    presenter.setRobot(tabletop.getRobot());
+    presenter.storeRobotState(tabletop.getRobot());
   }
 }
