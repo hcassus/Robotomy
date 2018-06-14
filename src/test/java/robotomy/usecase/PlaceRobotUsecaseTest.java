@@ -13,7 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import robotomy.domain.Robot;
 import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
-import robotomy.validator.MoveValidator;
+import robotomy.domain.MoveValidator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlaceRobotUsecaseTest {
@@ -46,9 +46,42 @@ public class PlaceRobotUsecaseTest {
   }
 
   @Test
-  public void testInvalidRobotPlacement() {
-    int positionX = 5;
+  public void testInvalidRobotNorthPlacement() {
+    int positionX = 0;
     int positionY = 5;
+
+    placeRobotUsecase.execute(positionX, positionY, NORTH);
+
+    Robot robot = tabletop.getRobot();
+    Assert.assertThat(robot, nullValue());
+  }
+
+  @Test
+  public void testInvalidRobotSouthPlacement() {
+    int positionX = 0;
+    int positionY = -1;
+
+    placeRobotUsecase.execute(positionX, positionY, NORTH);
+
+    Robot robot = tabletop.getRobot();
+    Assert.assertThat(robot, nullValue());
+  }
+
+  @Test
+  public void testInvalidRobotWestPlacement() {
+    int positionX = -1;
+    int positionY = 0;
+
+    placeRobotUsecase.execute(positionX, positionY, NORTH);
+
+    Robot robot = tabletop.getRobot();
+    Assert.assertThat(robot, nullValue());
+  }
+
+  @Test
+  public void testInvalidRobotEastPlacement() {
+    int positionX = 5;
+    int positionY = 0;
 
     placeRobotUsecase.execute(positionX, positionY, NORTH);
 
