@@ -1,0 +1,2 @@
+ignore: # files and folders for processing
+    - src/main/java/robotomy/Robotomy.java

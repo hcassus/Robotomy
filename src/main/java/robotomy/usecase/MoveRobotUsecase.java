@@ -1,9 +1,10 @@
 package robotomy.usecase;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import robotomy.domain.entities.Robot;
-import robotomy.domain.entities.Tabletop;
+import robotomy.domain.Robot;
+import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
 import robotomy.validator.MoveValidator;
 
@@ -12,11 +13,14 @@ import robotomy.validator.MoveValidator;
 public class MoveRobotUsecase {
 
   private final Tabletop tabletop;
-  private final MoveValidator validator;
+  private final MoveValidator moveValidator;
 
-  public void execute(){
-    Robot robot = moveRobot(tabletop.getRobot());
-    tabletop.setRobot(robot);
+  public void execute() {
+    Optional<Robot> optionalRobot = Optional.ofNullable(tabletop.getRobot());
+    if (optionalRobot.isPresent()) {
+      Robot robot = moveRobot(optionalRobot.get());
+      tabletop.setRobot(robot);
+    }
   }
 
   private Robot moveRobot(Robot robot) {
@@ -25,11 +29,10 @@ public class MoveRobotUsecase {
     int finalPositionX = robot.getPositionX() + direction.getPositionOffsetX();
     int finalPositionY = robot.getPositionY() + direction.getPositionOffsetY();
 
-    if (validator.isValidMove(finalPositionX, finalPositionY)){
+    if (moveValidator.isValidMove(finalPositionX, finalPositionY)) {
       robot.setPositionX(finalPositionX);
       robot.setPositionY(finalPositionY);
     }
-
 
     return robot;
   }

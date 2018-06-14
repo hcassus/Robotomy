@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import robotomy.domain.entities.Robot;
-import robotomy.domain.entities.Tabletop;
+import robotomy.domain.Robot;
+import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
 import robotomy.validator.MoveValidator;
 
@@ -21,18 +21,18 @@ public class MoveRobotUsecaseTest {
   private MoveValidator validator;
 
   @Before
-  public void setup(){
+  public void setup() {
     tabletop = new Tabletop(5, 5);
     validator = new MoveValidator(tabletop);
     moveRobotUsecase = new MoveRobotUsecase(tabletop, validator);
   }
 
   @Test
-  public void testMoveRobotNorth(){
+  public void testMoveRobotNorth() {
     Integer posX = 4;
     Integer posY = 2;
     Direction direction = NORTH;
-    Robot robot = prepareRobot(direction, posX, posY);
+    Robot robot = new Robot(posX, posY, direction);
     tabletop.setRobot(robot);
 
     moveRobotUsecase.execute();
@@ -44,11 +44,11 @@ public class MoveRobotUsecaseTest {
   }
 
   @Test
-  public void testInvalidMoveRobotNorth(){
+  public void testInvalidMoveRobotNorth() {
     Integer posX = 4;
     Integer posY = 4;
     Direction direction = NORTH;
-    Robot robot = prepareRobot(direction, posX, posY);
+    Robot robot = new Robot(posX, posY, direction);
     tabletop.setRobot(robot);
 
     moveRobotUsecase.execute();
@@ -57,13 +57,5 @@ public class MoveRobotUsecaseTest {
     Assert.assertThat(robot.getDirection(), is(direction));
     Assert.assertThat(robot.getPositionX(), is(posX));
     Assert.assertThat(robot.getPositionY(), is(posY));
-  }
-
-  private Robot prepareRobot(Direction direction, int positionX, int positionY) {
-    Robot robot = new Robot();
-    robot.setPositionX(positionX);
-    robot.setPositionY(positionY);
-    robot.setDirection(direction);
-    return robot;
   }
 }

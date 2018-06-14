@@ -8,48 +8,44 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import robotomy.domain.entities.Robot;
-import robotomy.domain.entities.Tabletop;
+import robotomy.domain.Robot;
+import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
+import robotomy.presenter.RobotOperationPresenter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportRobotUsecaseTest {
 
   private ReportRobotPositionUsecase reportRobotPositionUsecase;
   private Tabletop tabletop;
+  private RobotOperationPresenter robotOperationPresenter;
 
   @Before
-  public void setup(){
+  public void setup() {
     tabletop = new Tabletop(5, 5);
-    reportRobotPositionUsecase = new ReportRobotPositionUsecase(tabletop);
+    robotOperationPresenter = new RobotOperationPresenter();
+    reportRobotPositionUsecase = new ReportRobotPositionUsecase(tabletop, robotOperationPresenter);
   }
 
   @Test
-  public void testReportRobot(){
+  public void testReportRobot() {
     Direction direction = SOUTH;
     int positionX = 3;
     int positionY = 2;
-    Robot robot = prepareRobot(direction, positionX, positionY);
+    Robot robot = new Robot(positionX, positionY, direction);
     tabletop.setRobot(robot);
 
-    String message = reportRobotPositionUsecase.execute();
+    reportRobotPositionUsecase.execute();
 
-    Assert.assertThat(message, is(String.format("%s,%s,%s", positionX, positionY, direction)));
+    Assert.assertThat(robotOperationPresenter.present(),
+        is(String.format("%s,%s,%s", positionX, positionY, direction)));
   }
 
   @Test
-  public void testReportMissingRobot(){
-    String message = reportRobotPositionUsecase.execute();
+  public void testReportMissingRobot() {
+    reportRobotPositionUsecase.execute();
 
-    Assert.assertThat(message, is("ROBOT MISSING"));
-  }
-
-  private Robot prepareRobot(Direction direction, int positionX, int positionY) {
-    Robot robot = new Robot();
-    robot.setPositionX(positionX);
-    robot.setPositionY(positionY);
-    robot.setDirection(direction);
-    return robot;
+    Assert.assertThat(robotOperationPresenter.present(), is("ROBOT MISSING"));
   }
 
 }
