@@ -21,7 +21,7 @@ public class RobotOperationPresenterTest {
   public void testPresenterWithRobot() {
     Robot robot = new Robot(1, 2, Direction.NORTH);
 
-    robotOperationPresenter.setRobot(robot);
+    robotOperationPresenter.storeRobotState(robot);
 
     assertThat(robotOperationPresenter.present(), is("1,2,NORTH"));
   }

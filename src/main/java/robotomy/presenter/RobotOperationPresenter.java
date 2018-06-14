@@ -1,17 +1,20 @@
 package robotomy.presenter;
 
 import java.util.Optional;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 import robotomy.domain.Robot;
 
 @Component
 @RequestScope
-@Setter
 public class RobotOperationPresenter {
 
   private Robot robot;
+
+  public void storeRobotState(Robot robot){
+    Optional<Robot> optionalRobot = Optional.ofNullable(robot);
+    optionalRobot.ifPresent(receivedRobot -> this.robot = receivedRobot.clone());
+  }
 
   public String present() {
     String operationResultMessage;
