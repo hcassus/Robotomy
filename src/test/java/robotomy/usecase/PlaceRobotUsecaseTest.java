@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import robotomy.domain.entities.Robot;
-import robotomy.domain.entities.Tabletop;
+import robotomy.domain.Robot;
+import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
 import robotomy.validator.MoveValidator;
 
@@ -24,14 +24,14 @@ public class PlaceRobotUsecaseTest {
 
 
   @Before
-  public void setup(){
+  public void setup() {
     tabletop = new Tabletop(5, 5);
     validator = new MoveValidator(tabletop);
     placeRobotUsecase = new PlaceRobotUsecase(tabletop, validator);
   }
 
   @Test
-  public void testRobotPlacement(){
+  public void testRobotPlacement() {
     Direction direction = NORTH;
     int positionX = 0;
     int positionY = 1;
@@ -46,7 +46,7 @@ public class PlaceRobotUsecaseTest {
   }
 
   @Test
-  public void testInvalidRobotPlacement(){
+  public void testInvalidRobotPlacement() {
     int positionX = 5;
     int positionY = 5;
 

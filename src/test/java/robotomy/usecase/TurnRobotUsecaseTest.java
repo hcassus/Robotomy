@@ -2,7 +2,7 @@ package robotomy.usecase;
 
 import static org.hamcrest.Matchers.is;
 import static robotomy.domain.enumeration.Direction.EAST;
-import static robotomy.domain.enumeration.Direction.SOUTH;
+import static robotomy.domain.enumeration.Direction.NORTH;
 import static robotomy.domain.enumeration.Direction.WEST;
 
 import org.junit.Assert;
@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import robotomy.domain.entities.Robot;
-import robotomy.domain.entities.Tabletop;
+import robotomy.domain.Robot;
+import robotomy.domain.Tabletop;
 import robotomy.domain.enumeration.Direction;
 import robotomy.domain.enumeration.Rotation;
 
@@ -22,28 +22,26 @@ public class TurnRobotUsecaseTest {
   private Tabletop tabletop;
 
   @Before
-  public void setup(){
+  public void setup() {
     tabletop = new Tabletop(5, 5);
     turnRobotUsecase = new TurnRobotUsecase(tabletop);
   }
 
   @Test
-  public void testTurnRobotLeft(){
-    Robot robot = new Robot();
-    robot.setDirection(SOUTH);
+  public void testTurnRobotLeft() {
+    Robot robot = new Robot(0, 1, NORTH);
     tabletop.setRobot(robot);
 
-    turnRobotUsecase.execute(Rotation.LEFT);
+    turnRobotUsecase.execute(Rotation.RIGHT);
 
     robot = tabletop.getRobot();
     Assert.assertThat(robot.getDirection(), is(EAST));
   }
 
   @Test
-  public void testFullRightTurnRobot(){
-    Robot robot = new Robot();
+  public void testFullRightTurnRobot() {
     Direction direction = WEST;
-    robot.setDirection(direction);
+    Robot robot = new Robot(2, 3, direction);
     tabletop.setRobot(robot);
 
     perform360DegreeTurn(Rotation.RIGHT);
@@ -53,10 +51,9 @@ public class TurnRobotUsecaseTest {
   }
 
   @Test
-  public void testFullLeftTurnRobot(){
-    Robot robot = new Robot();
+  public void testFullLeftTurnRobot() {
     Direction direction = WEST;
-    robot.setDirection(direction);
+    Robot robot = new Robot(4, 3, direction);
     tabletop.setRobot(robot);
 
     perform360DegreeTurn(Rotation.LEFT);
