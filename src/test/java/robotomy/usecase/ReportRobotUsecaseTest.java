@@ -23,7 +23,7 @@ public class ReportRobotUsecaseTest {
   @Before
   public void setup() {
     tabletop = new Tabletop(5, 5);
-    robotOperationPresenter = new RobotOperationPresenter();
+    robotOperationPresenter = new RobotOperationPresenter(tabletop);
     reportRobotPositionUsecase = new ReportRobotPositionUsecase(tabletop, robotOperationPresenter);
   }
 
